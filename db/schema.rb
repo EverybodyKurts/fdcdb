@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_25_175756) do
+ActiveRecord::Schema.define(version: 2021_12_25_180137) do
 
   create_table "food_categories", id: false, force: :cascade do |t|
     t.integer "id", null: false
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(version: 2021_12_25_175756) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["id"], name: "index_food_categories_on_id", unique: true
+  end
+
+  create_table "food_nutrient_derivations", id: false, force: :cascade do |t|
+    t.integer "id", null: false
+    t.string "code", null: false
+    t.string "description", null: false
+    t.integer "source_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["id"], name: "index_food_nutrient_derivations_on_id", unique: true
   end
 
   create_table "food_nutrient_sources", id: false, force: :cascade do |t|
@@ -52,5 +62,6 @@ ActiveRecord::Schema.define(version: 2021_12_25_175756) do
     t.index ["id"], name: "index_nutrients_on_id", unique: true
   end
 
+  add_foreign_key "food_nutrient_derivations", "food_nutrient_sources", column: "source_id"
   add_foreign_key "foods", "food_categories"
 end

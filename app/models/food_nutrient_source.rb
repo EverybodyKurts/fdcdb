@@ -14,4 +14,6 @@
 #
 class FoodNutrientSource < ApplicationRecord
   self.primary_key = :id
+
+  has_many :food_nutrient_derivations, foreign_key: :source_id
 end
