@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_25_220124) do
+ActiveRecord::Schema.define(version: 2021_12_25_222305) do
 
   create_table "food_categories", id: false, force: :cascade do |t|
     t.integer "id", null: false
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 2021_12_25_220124) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["id"], name: "index_food_categories_on_id", unique: true
+  end
+
+  create_table "food_nutrient_conversion_factors", id: false, force: :cascade do |t|
+    t.integer "id", null: false
+    t.integer "fdc_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["fdc_id"], name: "index_food_nutrient_conversion_factors_on_fdc_id"
+    t.index ["id"], name: "index_food_nutrient_conversion_factors_on_id", unique: true
   end
 
   create_table "food_nutrient_derivations", id: false, force: :cascade do |t|
@@ -111,6 +120,7 @@ ActiveRecord::Schema.define(version: 2021_12_25_220124) do
     t.index ["id"], name: "index_nutrients_on_id", unique: true
   end
 
+  add_foreign_key "food_nutrient_conversion_factors", "foods", column: "fdc_id", primary_key: "fdc_id"
   add_foreign_key "food_nutrient_derivations", "food_nutrient_sources", column: "source_id"
   add_foreign_key "food_nutrients", "food_nutrient_derivations", column: "derivation_id"
   add_foreign_key "food_nutrients", "foods", column: "fdc_id", primary_key: "fdc_id"

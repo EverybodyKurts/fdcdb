@@ -37,4 +37,9 @@ class Food < ApplicationRecord
            foreign_key: :fdc_id,
            primary_key: :fdc_id
 
+  has_many :food_nutrient_conversion_factors,
+           inverse_of: :food,
+           foreign_key: :fdc_id,
+           primary_key: :fdc_id
+
 end
