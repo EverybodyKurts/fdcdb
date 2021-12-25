@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_25_222305) do
+ActiveRecord::Schema.define(version: 2021_12_25_223057) do
+
+  create_table "food_calorie_conversion_factors", id: false, force: :cascade do |t|
+    t.integer "food_nutrient_conversion_factor_id", null: false
+    t.float "protein_value", null: false
+    t.float "fat_value", null: false
+    t.float "carbohydrate_value", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["food_nutrient_conversion_factor_id"], name: "idx_cal_conversion_factors_on_nutrient_conversion_factor_id", unique: true
+  end
 
   create_table "food_categories", id: false, force: :cascade do |t|
     t.integer "id", null: false
@@ -120,6 +130,7 @@ ActiveRecord::Schema.define(version: 2021_12_25_222305) do
     t.index ["id"], name: "index_nutrients_on_id", unique: true
   end
 
+  add_foreign_key "food_calorie_conversion_factors", "food_nutrient_conversion_factors"
   add_foreign_key "food_nutrient_conversion_factors", "foods", column: "fdc_id", primary_key: "fdc_id"
   add_foreign_key "food_nutrient_derivations", "food_nutrient_sources", column: "source_id"
   add_foreign_key "food_nutrients", "food_nutrient_derivations", column: "derivation_id"
