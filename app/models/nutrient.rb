@@ -15,4 +15,7 @@
 #  index_nutrients_on_id  (id) UNIQUE
 #
 class Nutrient < ApplicationRecord
+  has_many :food_nutrients
+
+  has_many :foods, through: :food_nutrients
 end

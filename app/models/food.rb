@@ -23,4 +23,13 @@ class Food < ApplicationRecord
   self.primary_key = :fdc_id
 
   belongs_to :food_category
+
+  has_many :food_nutrients,
+           foreign_key: :fdc_id,
+           primary_key: :fdc_id,
+           inverse_of: :food
+
+  has_many :nutrients,
+           through: :food_nutrients
+
 end
