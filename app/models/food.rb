@@ -32,4 +32,9 @@ class Food < ApplicationRecord
   has_many :nutrients,
            through: :food_nutrients
 
+  has_many :food_portions,
+           inverse_of: :food,
+           foreign_key: :fdc_id,
+           primary_key: :fdc_id
+
 end

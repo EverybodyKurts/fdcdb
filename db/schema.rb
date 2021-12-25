@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_25_181512) do
+ActiveRecord::Schema.define(version: 2021_12_25_220124) do
 
   create_table "food_categories", id: false, force: :cascade do |t|
     t.integer "id", null: false
@@ -60,6 +60,25 @@ ActiveRecord::Schema.define(version: 2021_12_25_181512) do
     t.index ["nutrient_id"], name: "index_food_nutrients_on_nutrient_id"
   end
 
+  create_table "food_portions", id: false, force: :cascade do |t|
+    t.integer "id", null: false
+    t.integer "fdc_id", null: false
+    t.integer "seq_num"
+    t.float "amount", null: false
+    t.integer "measure_unit_id", null: false
+    t.string "portion_description"
+    t.string "modifier"
+    t.float "gram_weight", null: false
+    t.integer "data_points"
+    t.string "footnote"
+    t.date "min_year_acquired"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["fdc_id"], name: "index_food_portions_on_fdc_id"
+    t.index ["id"], name: "index_food_portions_on_id", unique: true
+    t.index ["measure_unit_id"], name: "index_food_portions_on_measure_unit_id"
+  end
+
   create_table "foods", id: false, force: :cascade do |t|
     t.integer "fdc_id", null: false
     t.string "data_type", null: false
@@ -70,6 +89,15 @@ ActiveRecord::Schema.define(version: 2021_12_25_181512) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["fdc_id"], name: "index_foods_on_fdc_id", unique: true
     t.index ["food_category_id"], name: "index_foods_on_food_category_id"
+  end
+
+  create_table "measure_units", id: false, force: :cascade do |t|
+    t.integer "id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["id"], name: "index_measure_units_on_id", unique: true
+    t.index ["name"], name: "index_measure_units_on_name", unique: true
   end
 
   create_table "nutrients", id: false, force: :cascade do |t|
@@ -87,5 +115,7 @@ ActiveRecord::Schema.define(version: 2021_12_25_181512) do
   add_foreign_key "food_nutrients", "food_nutrient_derivations", column: "derivation_id"
   add_foreign_key "food_nutrients", "foods", column: "fdc_id", primary_key: "fdc_id"
   add_foreign_key "food_nutrients", "nutrients"
+  add_foreign_key "food_portions", "foods", column: "fdc_id", primary_key: "fdc_id"
+  add_foreign_key "food_portions", "measure_units"
   add_foreign_key "foods", "food_categories"
 end
