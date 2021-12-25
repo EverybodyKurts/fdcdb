@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_25_180137) do
+ActiveRecord::Schema.define(version: 2021_12_25_181512) do
 
   create_table "food_categories", id: false, force: :cascade do |t|
     t.integer "id", null: false
@@ -40,6 +40,26 @@ ActiveRecord::Schema.define(version: 2021_12_25_180137) do
     t.index ["id"], name: "index_food_nutrient_sources_on_id", unique: true
   end
 
+  create_table "food_nutrients", id: false, force: :cascade do |t|
+    t.integer "id", null: false
+    t.integer "fdc_id", null: false
+    t.integer "nutrient_id", null: false
+    t.integer "amount", null: false
+    t.integer "data_points"
+    t.integer "derivation_id"
+    t.float "min"
+    t.float "max"
+    t.float "median"
+    t.string "footnote"
+    t.integer "min_year_acquired"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["derivation_id"], name: "index_food_nutrients_on_derivation_id"
+    t.index ["fdc_id"], name: "index_food_nutrients_on_fdc_id"
+    t.index ["id"], name: "index_food_nutrients_on_id", unique: true
+    t.index ["nutrient_id"], name: "index_food_nutrients_on_nutrient_id"
+  end
+
   create_table "foods", id: false, force: :cascade do |t|
     t.integer "fdc_id", null: false
     t.string "data_type", null: false
@@ -48,6 +68,7 @@ ActiveRecord::Schema.define(version: 2021_12_25_180137) do
     t.date "publication_date", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["fdc_id"], name: "index_foods_on_fdc_id", unique: true
     t.index ["food_category_id"], name: "index_foods_on_food_category_id"
   end
 
@@ -63,5 +84,8 @@ ActiveRecord::Schema.define(version: 2021_12_25_180137) do
   end
 
   add_foreign_key "food_nutrient_derivations", "food_nutrient_sources", column: "source_id"
+  add_foreign_key "food_nutrients", "food_nutrient_derivations", column: "derivation_id"
+  add_foreign_key "food_nutrients", "foods", column: "fdc_id", primary_key: "fdc_id"
+  add_foreign_key "food_nutrients", "nutrients"
   add_foreign_key "foods", "food_categories"
 end

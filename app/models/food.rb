@@ -12,6 +12,7 @@
 #
 # Indexes
 #
+#  index_foods_on_fdc_id            (fdc_id) UNIQUE
 #  index_foods_on_food_category_id  (food_category_id)
 #
 # Foreign Keys
