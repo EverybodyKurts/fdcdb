@@ -1,0 +1,16 @@
+{
+    "[ruby]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false
+    },
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "fdcdb",
+            "database": "${workspaceFolder:fdcdb}/db/development.sqlite3"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
